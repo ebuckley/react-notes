@@ -18,14 +18,13 @@ export function getProjects(user) {
   }
 }
 
-
-function getProjectFiles(user, project) {
+export function getProjectFiles(user, project) {
   if (!user || !project) {
     return Promise.reject(new Error('must have user and project params'))
   }
   return user.getIdToken()
     .then(tok => {
-      return fetch(BASE_URL + `projects/${project}`, {headers: {Authorization: tok}})
+      return fetch(BASE_URL + `projects/${project}/files`, {headers: {Authorization: tok}})
         .then(r => r.json())
     })
 }

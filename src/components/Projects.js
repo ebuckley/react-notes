@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-
 import firebase from 'firebase';
-
+import {Link} from 'react-router-dom';
 function ProjectItem(project) {
-  return <li>
-    {project.id}
-    <a href="javascript:void()"> show me</a>
+  const url = `/projects/${project.id}`
+  return <li key={url}>
+    {project.id}&nbsp;&nbsp;
+    <Link to={url}>show me</Link>
   </li>
 }
 export default function ProjectsView(props) {
   return <div>
-    <h1>Load a project</h1>
     <ul>
       {props.projects.map(ProjectItem)} 
     </ul>
