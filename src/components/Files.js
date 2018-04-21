@@ -1,46 +1,74 @@
 
 import React, { Component } from 'react';
 import get from 'lodash.get';
-import firebase from 'firebase'
-import {getProjectFiles} from '../services/projects';
+import {loadFiles, fetchFiles} from '../store/actions'
+import {store} from '../store'
 
-export default class FilesComponent extends Component {
+import { connect } from 'react-redux'
 
-  componentDidMount() {
-    // let projectid = get(this, 'props.project')
-    // const user = get(this, 'props.user')
-    // if (projectid && user) {
-    //   this.setState({loading: true})
-    //   getProjectFiles(user, projectid)
-    //     .then(results => {
-    //       this.setState({
-    //         loading: false,
-    //         files: results
-    //       })
-    //     }, err => {
-    //       console.error('error', err)
-    //       this.setState({
-    //         loading: false,
-    //         error: err
-    //       })
-    //     })
-    // }
+
+function mapStateToProps(state) {
+  return state;
+}
+
+const mapDispatchToProps = dispatch => {
+  // nothing
+  return {
   }
+}
+function dateSortFile(a, b) {
+  a = new Date(a.dateModified);
+  b = new Date(b.dateModified);
+  return a>b ? -1 : a<b ? 1 : 0;
+}
+
+function FileTile(file, onFocus) {
+  return (<div>
+  <h4>{file.name}</h4>
+  <div>
+    <button onClick={() => onFocus(file)}>Show</button>
+  </div>
+  <pre>{file.content}</pre>
+  </div>)
+}
+class FilesComponent extends Component {
+  constructor (props) {
+    super(props)
+    this.onFocus = (file) => {
+      const state = this
+      console.log('TODO: make this file the focus', file, state)
+    }
+  }
+  componentDidMount() {
+    const props = this.props;
+  }
+  
   render() {
     const projectid = get(this, 'props.project')
     const loading = get(this, 'state.loading', false)
     const error = get(this, 'state.error', false)
+    const files = get(this, 'props.files', [])
+    const fileCount = files.length;
+    
 
-    if (loading) {
+    if (loading || fileCount == 0) {
       return <div>Loading... </div>
     } else if (error) {
       return <div>{error}</div>
     } else {
       return (
         <div>
-          All files from {projectid}
+          {fileCount} files from {projectid}
+          {files.map(f => FileTile(f, this.onFocus))}
         </div>
       )
     }
   }
 }
+
+const FilesList = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FilesComponent)
+
+export default FilesList

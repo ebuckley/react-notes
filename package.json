@@ -7,13 +7,18 @@
     "draft-js-markdown-plugin": "^1.4.4",
     "draft-js-plugins-editor": "^2.0.4",
     "firebase": "^4.13.1",
+    "history": "^4.7.2",
     "lodash.get": "^4.4.2",
     "markdown-draft-js": "^0.6.3",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
+    "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
+    "react-router-redux": "^5.0.0-alpha.9",
     "react-scripts": "1.1.4",
-    "redux": "^4.0.0"
+    "redux": "^4.0.0",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
