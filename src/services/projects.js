@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 
-// export const BASE_URL = 'https://api.ersin.nz/'
-export const BASE_URL = 'http://localhost:1338/'
+export const BASE_URL = 'https://api.ersin.nz/'
+// export const BASE_URL = 'http://localhost:1338/'
 
 export function getProjects(user) {
   const url = BASE_URL + 'projects'

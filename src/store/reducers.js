@@ -1,5 +1,5 @@
-import {SAVE_FILE, LOAD_FILES, SELECT_PROJECT, USER_LOGIN, fetchFiles} from './actions'
-import { getProjectFiles } from '../services/projects';
+import {SAVE_FILE, LOAD_FILES, SELECT_PROJECT, USER_LOGIN} from './actions'
+
 export const initialState = {
   // List of files currently known about
   user: null,

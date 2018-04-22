@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import './App.css';
 import firebase from 'firebase';
 import config from './config';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import {BrowserRouter as Router, Route, NavLink} from 'react-router-dom';
 
 import get from 'lodash.get'
 import {getProjects} from './services/projects';
 import Login from './components/Login';
 import Projects from './components/Projects'
 import Files from './components/Files'
-import {loadFiles, selectProject, fetchFiles} from './store/actions';
+import {fetchFiles} from './store/actions';
 import { store } from './store'
 import {userLogin} from './store/actions'
 
@@ -82,10 +82,10 @@ class App extends Component {
     const router = (
       <Router>
         <div>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/projects">Projects</Link></li>
-            <li><Link to="/about">About</Link></li>
+          <ul class='nav'>
+            <li><NavLink activeClassName="active" to="/">Home</NavLink></li>
+            <li><NavLink activeClassName="active" to="/projects">Projects</NavLink></li>
+            <li><NavLink activeClassName="active" to="/about">About</NavLink></li>
             {getLogin}
           </ul>
     

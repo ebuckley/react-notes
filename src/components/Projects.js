@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import firebase from 'firebase';
+import React from 'react';
 import {Link} from 'react-router-dom';
 function ProjectItem(project) {
   const url = `/projects/${project.id}`

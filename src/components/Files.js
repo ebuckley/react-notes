@@ -1,10 +1,9 @@
 
 import React, { Component } from 'react';
 import get from 'lodash.get';
-import {loadFiles, fetchFiles} from '../store/actions'
-import {store} from '../store'
-
 import { connect } from 'react-redux'
+import Editor from './Editor'
+import './styles/Files.css'
 
 
 function mapStateToProps(state) {
@@ -17,13 +16,14 @@ const mapDispatchToProps = dispatch => {
   }
 }
 function dateSortFile(a, b) {
-  a = new Date(a.dateModified);
-  b = new Date(b.dateModified);
+  a = new Date(a.name);
+  b = new Date(b.name);
   return a>b ? -1 : a<b ? 1 : 0;
 }
 
 function FileTile(file, onFocus) {
-  return (<div>
+  const key = file.name
+  return (<div key={key} className="tile-file">
   <h4>{file.name}</h4>
   <div>
     <button onClick={() => onFocus(file)}>Show</button>
@@ -34,13 +34,13 @@ function FileTile(file, onFocus) {
 class FilesComponent extends Component {
   constructor (props) {
     super(props)
+    this.setState({isEditing: false})
     this.onFocus = (file) => {
       const state = this
+      this.setState({focused: file, isEditing: true})
       console.log('TODO: make this file the focus', file, state)
     }
-  }
-  componentDidMount() {
-    const props = this.props;
+
   }
   
   render() {
@@ -49,17 +49,33 @@ class FilesComponent extends Component {
     const error = get(this, 'state.error', false)
     const files = get(this, 'props.files', [])
     const fileCount = files.length;
-    
+    const focusedName = get(this, 'state.focused.name', '')
+    const focusContent = get(this, 'state.focused.content', '')
+    const hideFiles = () => {
+      this.setState({isEditing:false})
+    } 
 
-    if (loading || fileCount == 0) {
+    if (loading || (fileCount === 0)) {
       return <div>Loading... </div>
     } else if (error) {
       return <div>{error}</div>
     } else {
+      const isEditing = get(this, 'state.isEditing') ? '' : 'modal-closed';
       return (
         <div>
+          <div cla className={"files-edit-modal " + isEditing}>
+            <div className="files-edit-modal-content">
+              <button onClick={hideFiles}>Discard changes</button>
+              <div class='title'>
+                {focusedName}
+              </div>
+              <Editor value={focusContent} />
+            </div>
+          </div>
           {fileCount} files from {projectid}
-          {files.map(f => FileTile(f, this.onFocus))}
+          <div className="tile-container">
+            {files.sort(dateSortFile).map(f => FileTile(f, this.onFocus))}
+          </div>
         </div>
       )
     }

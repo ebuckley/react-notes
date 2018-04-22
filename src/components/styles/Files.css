@@ -1,0 +1,45 @@
+.tile-file pre {
+  overflow: hidden;
+}
+
+.tile-file {
+  width: 250px;
+  max-height: 350px;
+  padding: 15px;
+  margin: 15px;
+  box-shadow: 9px 9px black;
+  border: 3px solid black;
+  margin-bottom: 30px;
+  overflow: hidden;
+  align-items: baseline;
+}
+
+.tile-container {
+  flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+  flex-shrink: 1;
+}
+
+
+.files-edit-modal {
+  position: absolute;
+  top: 0;
+}
+
+.modal-closed {
+  display: none;
+}
+
+.files-edit-modal-content {
+  background: white;
+  border: 3px solid black;
+  width: calc(100% - 48px);
+  margin: 24px;
+  margin-top: 32px;
+  padding: 24px;
+}
+
+.title {
+  font-size: 1.4rem;
+}
