@@ -7,14 +7,17 @@ import './styles/Files.css'
 
 
 function mapStateToProps(state) {
+
   return state;
 }
 
 const mapDispatchToProps = dispatch => {
   // nothing
+  // this function allows you to create functions that dispatch to redux.
   return {
   }
 }
+
 function dateSortFile(a, b) {
   a = new Date(a.name);
   b = new Date(b.name);
@@ -38,9 +41,16 @@ class FilesComponent extends Component {
     this.onFocus = (file) => {
       const state = this
       this.setState({focused: file, isEditing: true})
-      console.log('TODO: make this file the focus', file, state)
+      window.scrollTo(0,0);
     }
 
+    // What the boilerplate?!
+    this.hideFiles = this.hideFiles.bind(this)
+
+  }
+  
+  hideFiles() {
+    this.setState({isEditing:false})
   }
   
   render() {
@@ -51,9 +61,7 @@ class FilesComponent extends Component {
     const fileCount = files.length;
     const focusedName = get(this, 'state.focused.name', '')
     const focusContent = get(this, 'state.focused.content', '')
-    const hideFiles = () => {
-      this.setState({isEditing:false})
-    } 
+     
 
     if (loading || (fileCount === 0)) {
       return <div>Loading... </div>
@@ -63,9 +71,10 @@ class FilesComponent extends Component {
       const isEditing = get(this, 'state.isEditing') ? '' : 'modal-closed';
       return (
         <div>
-          <div cla className={"files-edit-modal " + isEditing}>
+          <div className={"modal-overlay " + isEditing}></div>
+          <div ref={n => this.wrapperEl = n} className={"files-edit-modal " + isEditing}>
             <div className="files-edit-modal-content">
-              <button onClick={hideFiles}>Discard changes</button>
+              <button onClick={this.hideFiles}>Discard changes</button>
               <div class='title'>
                 {focusedName}
               </div>

@@ -25,6 +25,23 @@
 .files-edit-modal {
   position: absolute;
   top: 0;
+  left: 0; right: 0;
+  margin: auto;
+  margin: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 2;
+}
+.modal-overlay {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0; right: 0;
+  margin: auto;
+  margin: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(1, 1, 1, 0.4)
 }
 
 .modal-closed {
@@ -34,8 +51,8 @@
 .files-edit-modal-content {
   background: white;
   border: 3px solid black;
-  width: calc(100% - 48px);
-  margin: 24px;
+  box-shadow: 18px 18px black;
+  margin: 48px;
   margin-top: 32px;
   padding: 24px;
 }
