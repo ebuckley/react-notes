@@ -4,7 +4,7 @@ import get from 'lodash.get';
 import { connect } from 'react-redux'
 import Editor from './Editor'
 import './styles/Files.css'
-
+import {saveFile} from '../services/projects';
 
 function mapStateToProps(state) {
 
@@ -37,22 +37,37 @@ function FileTile(file, onFocus) {
 class FilesComponent extends Component {
   constructor (props) {
     super(props)
+
     this.setState({isEditing: false})
+
     this.onFocus = (file) => {
-      const state = this
       this.setState({focused: file, isEditing: true})
       window.scrollTo(0,0);
     }
 
     // What the boilerplate?!
-    this.hideFiles = this.hideFiles.bind(this)
+    this.hideFiles = this.hideFiles.bind(this);
+    this.updateOrSaveFile = this.updateOrSaveFile.bind(this);
 
   }
   
   hideFiles() {
     this.setState({isEditing:false})
   }
-  
+
+  updateOrSaveFile(content) {
+    if (this.props.project) {
+      // figure out what to do here
+      saveFile(this.props.project, this.state.focused.name, content)
+        .then(has_saved => {
+          alert('it worked!', has_saved)
+          // and also here.
+        }, err => {
+          alert(err);
+        })
+    } 
+  }
+
   render() {
     const projectid = get(this, 'props.project')
     const loading = get(this, 'state.loading', false)
@@ -78,7 +93,7 @@ class FilesComponent extends Component {
               <div class='title'>
                 {focusedName}
               </div>
-              <Editor value={focusContent} />
+              <Editor onChange={this.updateOrSaveFile} value={focusContent} />
             </div>
           </div>
           {fileCount} files from {projectid}
