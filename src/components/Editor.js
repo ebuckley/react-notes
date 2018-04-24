@@ -32,10 +32,10 @@ class Editor extends Component {
   }
   constructor(props) {
     super(props)
-    this.onChange = editorState => this.setState({editorState});
-    this.save = () => {
-      console.log('will save', this.state.editorState)
-      const md = stateToMd(this.state.editorState );
+
+    this.onChange = (editorState) => {
+      this.setState({editorState})
+      const md = stateToMd(editorState);
       this.emit(md);
     }
 
@@ -57,7 +57,6 @@ class Editor extends Component {
             plugins={this.state.plugins}
             onChange={this.onChange} />
         </div>
-        <button onClick={this.save}>Save</button>
       </div>)
   }
 }

@@ -53,10 +53,47 @@
   border: 3px solid black;
   box-shadow: 18px 18px black;
   margin: 48px;
-  margin-top: 32px;
+  margin-top: 14px;
   padding: 24px;
 }
 
+.modal-actions {
+  min-height: 48px;
+  display: flex;
+  flex-flow: row wrap;
+  margin-top: -12px;
+  padding-bottom: 24px;
+}
+
+.modal-actions button {
+  border: 1px dotted black;
+  font-size: 1.8rem;
+  background: none;
+  cursor: pointer;
+  margin-right: 8px;
+  width: 125px;
+}
+.modal-actions button:hover {
+  box-shadow: -4px 4px;
+  border: 1px solid black;
+  border: 1px solid;
+  transition: ease;
+  transition-duration: 0.1s;
+}
+
 .title {
-  font-size: 1.4rem;
+  text-align: center;
+  flex-grow: 1;
+  border: 1px dotted black;
+  font-size: 1.8em;
+  line-height: 2.1em;
+}
+.title i {
+  color: #777;
+  font-family: serif;
+  margin-right: 6px;
+}
+
+.loading-icon {
+  color: #f00;
 }

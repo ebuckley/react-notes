@@ -34,6 +34,16 @@ function FileTile(file, onFocus) {
   <pre>{file.content}</pre>
   </div>)
 }
+
+/**
+ * delat an amount of time then resolve
+ * @param {number} time in millisecons 
+ */
+const delay = time => new Promise((resolve, reject) => {
+  setTimeout(function () {
+    resolve()
+  }, time)
+})
 class FilesComponent extends Component {
   constructor (props) {
     super(props)
@@ -48,7 +58,7 @@ class FilesComponent extends Component {
     // What the boilerplate?!
     this.hideFiles = this.hideFiles.bind(this);
     this.updateOrSaveFile = this.updateOrSaveFile.bind(this);
-
+    this.persistFile = this.persistFile.bind(this);
   }
   
   hideFiles() {
@@ -56,13 +66,20 @@ class FilesComponent extends Component {
   }
 
   updateOrSaveFile(content) {
+    if (content) {
+      this.content = content; // hmm can't be this easy...
+    }
+  }
+
+  persistFile() {
     if (this.props.project) {
-      // figure out what to do here
-      saveFile(this.props.project, this.state.focused.name, content)
+      this.setState({isSaving: true})
+      // saveFile(this.props.project, this.state.focused.name, this.content)
+      delay(5000)
         .then(has_saved => {
-          alert('it worked!', has_saved)
-          // and also here.
+          this.setState({isSaving: false})
         }, err => {
+          this.setState({isSaving: false})
           alert(err);
         })
     } 
@@ -77,6 +94,14 @@ class FilesComponent extends Component {
     const focusedName = get(this, 'state.focused.name', '')
     const focusContent = get(this, 'state.focused.content', '')
      
+    let buttonBar = (
+    <span >
+    </span>
+    );
+              
+    if (get(this, 'state.isSaving')) {
+      buttonBar = <div class='loading-icon'>loading</div>
+    }
 
     if (loading || (fileCount === 0)) {
       return <div>Loading... </div>
@@ -89,9 +114,10 @@ class FilesComponent extends Component {
           <div className={"modal-overlay " + isEditing}></div>
           <div ref={n => this.wrapperEl = n} className={"files-edit-modal " + isEditing}>
             <div className="files-edit-modal-content">
-              <button onClick={this.hideFiles}>Discard changes</button>
-              <div class='title'>
-                {focusedName}
+              <div class='modal-actions'>
+                <button onClick={this.hideFiles}>Discard</button>
+                <button onClick={this.persistFile}>SAVE</button>
+                <div class='title'><i>title:</i>{focusedName}</div>
               </div>
               <Editor onChange={this.updateOrSaveFile} value={focusContent} />
             </div>
