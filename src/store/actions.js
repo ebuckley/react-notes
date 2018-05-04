@@ -12,9 +12,8 @@ export const loadFiles = (files) => ({
   files
 });
 
-export const saveFile = (id, file) => ({
+export const updateFile = (file) => ({
   type: SAVE_FILE,
-  project: id,
   file: file
 });
 
@@ -29,5 +28,4 @@ export const fetchFiles = (user, project) => dispatch => {
     .then(files => {
       dispatch(loadFiles(files))
     })
-
 }

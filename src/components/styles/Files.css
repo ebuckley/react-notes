@@ -65,7 +65,7 @@
   padding-bottom: 24px;
 }
 
-.modal-actions button {
+ button {
   border: 1px dotted black;
   font-size: 1.8rem;
   background: none;
@@ -73,7 +73,7 @@
   margin-right: 8px;
   width: 125px;
 }
-.modal-actions button:hover {
+button:hover {
   box-shadow: -4px 4px;
   border: 1px solid black;
   transition: ease;
@@ -117,4 +117,10 @@
   transition-duration: 0.1s;
   margin-bottom: 4px;
   margin-top: -4px;
+}
+
+input {
+  font-family: serif;
+  font-size: 1.6rem;
+  padding-left: 8px;
 }

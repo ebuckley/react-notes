@@ -44,6 +44,15 @@ class App extends Component {
   }
   getState(user, projectid) {
   }
+
+  logout() {
+    firebase.auth().signOut()
+      .then(() => {
+        console.log('did log out!')
+      }, err => {
+        console.error('failed to log out', err)
+      })
+  }
   render() {
     
     const projects = ({match}) => (
@@ -75,18 +84,16 @@ class App extends Component {
       </div>
     )
 
-    let getLogin = (<Login/>)
     if (this.state.user) {
-      getLogin = (<span></span>)
     }
     const router = (
       <Router>
         <div>
-          <ul class='nav'>
+          <ul className='nav'>
             <li><NavLink activeClassName="active" to="/">Home</NavLink></li>
             <li><NavLink activeClassName="active" to="/projects">Projects</NavLink></li>
             <li><NavLink activeClassName="active" to="/about">About</NavLink></li>
-            {getLogin}
+            <li><button onClick={this.logout}>Log out</button></li>
           </ul>
     
           <hr/>
@@ -99,7 +106,7 @@ class App extends Component {
     if (this.state.user) {
       return router;
     } else {
-      return <div> Loading... </div>
+      return  <Login/>
     }
   }
 }

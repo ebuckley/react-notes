@@ -4,6 +4,7 @@ import get from 'lodash.get';
 import { connect } from 'react-redux'
 import Editor from './Editor'
 import './styles/Files.css'
+import {updateFile} from '../store/actions';
 import {saveFile} from '../services/projects';
 
 function mapStateToProps(state) {
@@ -15,6 +16,9 @@ const mapDispatchToProps = dispatch => {
   // nothing
   // this function allows you to create functions that dispatch to redux.
   return {
+    updateFile: (file) => {
+      dispatch(updateFile(file))
+    }
   }
 }
 
@@ -35,6 +39,24 @@ function FileTile(file, onFocus) {
   </div>)
 }
 
+function LeadTile(onNew) {
+  return(
+  <div className="tile-file">
+    <button onClick={onNew}>Create New File</button>
+  </div>)
+}
+
+function TitleView (title, isNewFile, onChange ) {
+  if (isNewFile) {
+    return (
+      <div className='title'><i>title:</i><input onChange={onChange} value={title}></input></div>
+    )
+  } else {
+    return (
+      <div className='title'><i>title:</i>{title}</div>
+    )
+  }
+}
 /**
  * delat an amount of time then resolve
  * @param {number} time in millisecons 
@@ -59,6 +81,8 @@ class FilesComponent extends Component {
     this.hideFiles = this.hideFiles.bind(this);
     this.updateOrSaveFile = this.updateOrSaveFile.bind(this);
     this.persistFile = this.persistFile.bind(this);
+    this.onNew = this.onNew.bind(this);
+    this.onChangeTitle = this.onChangeTitle.bind(this);
   }
   
   hideFiles() {
@@ -76,12 +100,28 @@ class FilesComponent extends Component {
       this.setState({isSaving: true})
       saveFile(this.props.project, this.state.focused.name, this.content)
         .then(has_saved => {
-          this.setState({isSaving: false})
+          this.props.updateFile(has_saved)
+          this.setState({isSaving: false, focused: null, isEditing: false, isNewFile: false})
         }, err => {
           this.setState({isSaving: false})
           alert(err);
         })
     } 
+  }
+
+  onNew () {
+    this.setState({
+      focused: { name: 'untitled', content: '' },
+      isEditing: true,
+      isNewFile: true
+    });
+  }
+
+  onChangeTitle (e) {
+    const focused = this.state.focused;
+    this.setState({
+      focused: Object.assign({name:e.target.value})
+    })
   }
 
   render() {
@@ -92,6 +132,7 @@ class FilesComponent extends Component {
     const fileCount = files.length;
     const focusedName = get(this, 'state.focused.name', '')
     const focusContent = get(this, 'state.focused.content', '')
+    const isNewFile = get(this, 'state.isNewFile', false)
      
     const savingAction = get(this, 'state.savingAction', new Promise(()=>{}));
 
@@ -111,16 +152,17 @@ class FilesComponent extends Component {
           <div className={"modal-overlay " + isEditing }></div>
           <div ref={n => this.wrapperEl = n} className={"files-edit-modal " + isEditing}>
             <div className={"files-edit-modal-content" + isSavingClass}>
-              <div class='modal-actions'>
+              <div className='modal-actions'>
                 <button onClick={this.hideFiles}>discard </button>
                 <button onClick={this.persistFile}>SAVE</button>
-                <div class='title'><i>title:</i>{focusedName}</div>
+                {TitleView(focusedName, isNewFile, this.onChangeTitle)}
               </div>
               <Editor onChange={this.updateOrSaveFile} value={focusContent} />
             </div>
           </div>
           {fileCount} files from {projectid}
           <div className="tile-container">
+            {LeadTile(this.onNew)}
             {files.sort(dateSortFile).map(f => FileTile(f, this.onFocus))}
           </div>
         </div>

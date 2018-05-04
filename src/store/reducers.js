@@ -16,10 +16,16 @@ export function draftApp(state = initialState, action) {
         user: action.user
       });
     case SAVE_FILE:
+      const newFiles = state.files.filter(file => {
+        return file.name !== action.file.name
+      }).concat([{
+        name: action.file.name,
+        content: action.file.content
+      }]);
       return Object.assign({}, state, {
-        loading: true,
-        files: []
-      })
+        loading: false,
+        files: newFiles
+      });
     case LOAD_FILES:
       console.log('load files')
       return Object.assign({}, state, {

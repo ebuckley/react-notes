@@ -2,6 +2,7 @@
   "name": "draft",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://ersin.nz/draft",
   "dependencies": {
     "draft-js": "^0.10.5",
     "draft-js-markdown-plugin": "^1.4.4",
@@ -28,3 +29,4 @@
     "eject": "react-scripts eject"
   }
 }
+
