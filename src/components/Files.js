@@ -74,8 +74,7 @@ class FilesComponent extends Component {
   persistFile() {
     if (this.props.project) {
       this.setState({isSaving: true})
-      // saveFile(this.props.project, this.state.focused.name, this.content)
-      delay(5000)
+      saveFile(this.props.project, this.state.focused.name, this.content)
         .then(has_saved => {
           this.setState({isSaving: false})
         }, err => {
@@ -94,13 +93,11 @@ class FilesComponent extends Component {
     const focusedName = get(this, 'state.focused.name', '')
     const focusContent = get(this, 'state.focused.content', '')
      
-    let buttonBar = (
-    <span >
-    </span>
-    );
-              
+    const savingAction = get(this, 'state.savingAction', new Promise(()=>{}));
+
+    let isSavingClass = ' ';
     if (get(this, 'state.isSaving')) {
-      buttonBar = <div class='loading-icon'>loading</div>
+      isSavingClass = ' loading'
     }
 
     if (loading || (fileCount === 0)) {
@@ -111,11 +108,11 @@ class FilesComponent extends Component {
       const isEditing = get(this, 'state.isEditing') ? '' : 'modal-closed';
       return (
         <div>
-          <div className={"modal-overlay " + isEditing}></div>
+          <div className={"modal-overlay " + isEditing }></div>
           <div ref={n => this.wrapperEl = n} className={"files-edit-modal " + isEditing}>
-            <div className="files-edit-modal-content">
+            <div className={"files-edit-modal-content" + isSavingClass}>
               <div class='modal-actions'>
-                <button onClick={this.hideFiles}>Discard</button>
+                <button onClick={this.hideFiles}>discard </button>
                 <button onClick={this.persistFile}>SAVE</button>
                 <div class='title'><i>title:</i>{focusedName}</div>
               </div>

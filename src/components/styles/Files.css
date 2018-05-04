@@ -76,9 +76,10 @@
 .modal-actions button:hover {
   box-shadow: -4px 4px;
   border: 1px solid black;
-  border: 1px solid;
   transition: ease;
   transition-duration: 0.1s;
+  margin-bottom: 4px;
+  margin-top: -4px;
 }
 
 .title {
@@ -94,6 +95,26 @@
   margin-right: 6px;
 }
 
-.loading-icon {
-  color: #f00;
+.loading {
+  animation: flash ease 0.1s ;
+  background-color: #777;
+}
+@-webkit-keyframes flash {
+	0% { opacity: 1; } 
+	50% { opacity: .1; } 
+	100% { opacity: 1; }
+}
+@keyframes flash {
+	0% { opacity: 1; } 
+	50% { opacity: .1; } 
+	100% { opacity: 1; }
+}
+
+.loading button {
+  bordeR: 1px solid black;
+  box-shadow: -4px 4px;
+  transition: ease;
+  transition-duration: 0.1s;
+  margin-bottom: 4px;
+  margin-top: -4px;
 }
