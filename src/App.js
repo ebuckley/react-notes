@@ -87,7 +87,7 @@ class App extends Component {
     if (this.state.user) {
     }
     const router = (
-      <Router>
+      <Router basename="/draft">
         <div>
           <ul className='nav'>
             <li><NavLink activeClassName="active" to="/">Home</NavLink></li>

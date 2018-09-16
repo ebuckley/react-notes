@@ -1,6 +1,6 @@
 {
   "name": "draft",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "homepage": "https://ersin.nz/draft",
   "dependencies": {
@@ -23,7 +23,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start:dev": "API_URL=http://localhost:1338 yarn start",
+    "start:dev": "REACT_APP_API_URL=http://localhost:1338/ react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

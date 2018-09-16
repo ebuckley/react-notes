@@ -1,8 +1,7 @@
 import firebase from 'firebase';
 import 'process';
 
-export const BASE_URL = 'https://api.ersin.nz/'
-// export const BASE_URL = 'http://localhost:1338/'
+export const BASE_URL = process.env.REACT_APP_API_URL || 'https://api.ersin.nz/';
 
 const apiOptions = (tok, method, body) => ({
     body: JSON.stringify(body),
